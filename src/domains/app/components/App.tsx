@@ -75,30 +75,74 @@ export const App = observer(function App(props: AppInit) {
   }
 
   return (
-    <>
-      {shouldDisplayHeader(props.models.uiModel.view) ? <AppHeader onClick={onBack} /> : null}
+    <Container
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+        height: "100%",
+        width: "1280px",
+      }}
+    >
+      <AppHeader onClick={onBack} view={props.models.uiModel.view} />
       {content}
-    </>
+    </Container>
   );
 });
 
-function shouldDisplayHeader(view: UiView): boolean {
+function shouldDisplayBackArrow(view: UiView): boolean {
   // list of views which should not have AppHeader
   return ![UiView.CONNECT_METAMASK, UiView.SELECT_MODE].includes(view);
 }
 
-function AppHeader({ onClick }: { onClick?: (() => void) | (() => Promise<void>) }) {
+const addBackArrowStyles = (display: boolean) => {
+  return display
+    ? {
+        display: "flex",
+        flexDirection: "row",
+      }
+    : undefined;
+};
+
+function AppHeader({ onClick, view }: { view: UiView; onClick?: (() => void) | (() => Promise<void>) }) {
+  const displayBackArrow = shouldDisplayBackArrow(view);
+
   return (
     <Container
       sx={{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "flex-start",
+        width: "100%",
+        margin: "1.5rem 0",
+        ...addBackArrowStyles(displayBackArrow),
       }}
     >
-      <IconButton onClick={onClick} color="primary">
-        <ArrowBackIosNewIcon />
-      </IconButton>
+      {displayBackArrow ? (
+        <IconButton onClick={onClick} color="primary" sx={{ marginRight: "1rem", display: "inline-block" }}>
+          <ArrowBackIosNewIcon />
+        </IconButton>
+      ) : null}
+
+      <Typography
+        component={"h1"}
+        sx={{
+          fontSize: "2rem",
+        }}
+      >
+        🐱‍👤 Stealthy
+      </Typography>
+
+      {!displayBackArrow ? (
+        <Typography
+          component={"h2"}
+          sx={{
+            fontSize: "1.5rem",
+            marginTop: "2rem",
+            textAlign: "center",
+            boxSizing: "border-box",
+          }}
+        >
+          Send stealth payments to Ethereum addresses
+        </Typography>
+      ) : null}
     </Container>
   );
 }

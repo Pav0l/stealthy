@@ -1,4 +1,4 @@
-import { Container, Button } from "@mui/material";
+import { Container, Button, ButtonProps } from "@mui/material";
 
 interface Props {
   onSenderMode: () => void;
@@ -7,10 +7,29 @@ interface Props {
 
 export function SelectMode(props: Props) {
   return (
-    <Container>
-      <Button onClick={props.onSenderMode}>Send funds</Button>
+    <Container
+      sx={{
+        margin: "2rem 0",
+      }}
+    >
+      <ModeButton onClick={props.onSenderMode}>Send ETH</ModeButton>
 
-      <Button onClick={props.onReceiverMode}>Receive funds</Button>
+      <ModeButton onClick={props.onReceiverMode}>Receive ETH</ModeButton>
     </Container>
+  );
+}
+
+function ModeButton(props: ButtonProps) {
+  return (
+    <Button
+      onClick={props.onClick}
+      sx={{
+        padding: "3rem 5rem",
+        border: "1px solid",
+        margin: "1rem",
+      }}
+    >
+      {props.children}
+    </Button>
   );
 }
