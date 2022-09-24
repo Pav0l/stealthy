@@ -23,6 +23,7 @@ function MessageCard({ msg, onClick, id }: { msg: string; id: string; onClick?: 
         borderRadius: "8px",
         cursor: onClick ? "pointer" : "auto",
         marginBottom: "0.5rem",
+        width: "600px",
       }}
       onClick={clickHandler}
     >
@@ -37,12 +38,19 @@ export const ConversationDetail = observer(function ConversationDetail(props: Pr
       <Typography
         sx={{
           marginBottom: "1rem",
+          fontSize: "1.2rem",
         }}
       >
         Payments from: {props.conversationWith}
       </Typography>
 
-      <Container>
+      <Container
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         {props.messages.length === 0 ? (
           <MessageCard id="" msg={`No payments from ${props.conversationWith}`} />
         ) : (

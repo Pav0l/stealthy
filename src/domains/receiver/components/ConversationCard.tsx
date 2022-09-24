@@ -16,6 +16,7 @@ export function ConversationCard(props: Props) {
         borderRadius: "8px",
         cursor: "pointer",
         marginBottom: "0.5rem",
+        width: "600px",
       }}
     >
       <Typography>From: {props.from}</Typography>
