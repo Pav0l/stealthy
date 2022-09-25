@@ -30,7 +30,7 @@ export class Sender {
     await this.messaging.init(this.web3Model.signer);
 
     // make a transaction sending funds to the stealth address
-    await this.sendTx(address, value);
+    await this.sendTx(stealthAddress, value);
 
     // send msg to receiver via XMTP about the tx
     await this.messaging.sendMsg(address, { r: random.toHex, value });

@@ -62,8 +62,20 @@ export const MessageDetail = observer(function MessageDetail(props: Props) {
         label="Enter your private key:"
         value={privKey}
         onChange={(ev) => setPrivKey(ev)}
+        sx={{
+          width: "600px",
+          marginTop: "1rem",
+        }}
       ></TextField>
-      <Button onClick={onKey}>Generate stealth key</Button>
+      <Button
+        onClick={onKey}
+        sx={{
+          width: "600px",
+          marginTop: "1rem",
+        }}
+      >
+        Generate stealth key
+      </Button>
     </CenteredContainer>
   );
 });
@@ -75,6 +87,7 @@ function CenteredContainer({ children }: { children: ReactNode }) {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
+        alignItems: "center",
       }}
     >
       {children}

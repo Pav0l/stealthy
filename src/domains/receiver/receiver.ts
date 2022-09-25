@@ -48,7 +48,7 @@ export class Receiver {
     if (!kp && this.keyExists()) {
       // keyPair is not yet in memory, but private key exist in LS
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      this.receiverModel.setStealthyKeyPair(random, new KeyPair(this.getPkFromLs()!));
+      this.receiverModel.setStealthyKeyPair(random, new KeyPair(this.getPkFromLs()!).mulPrivateKey(random));
       kp = this.receiverModel.getStealthyKeyPair(random);
     }
     return kp;
