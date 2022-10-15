@@ -4,12 +4,9 @@ import { Messaging } from "../messaging/messaging";
 import { Web3Model } from "../web3/web3.model";
 import { ReceiverModel } from "./receiver.model";
 
-const PK_LS_KEY = "pk_key";
-
 export class Receiver {
   constructor(private receiverModel: ReceiverModel, private web3Model: Web3Model, private messaging: Messaging) {
     this.generateStealthKeys = this.generateStealthKeys.bind(this);
-    this.keyExists = this.keyExists.bind(this);
   }
 
   signXmtpToLoadConversations = async () => {
@@ -40,53 +37,9 @@ export class Receiver {
     }
 
     this.receiverModel.setStealthyKeyPair(random, keyPair);
-    this.storeEnsPk(pk);
   }
 
   getStealthyKeyPair = (random: string) => {
-    let kp = this.receiverModel.getStealthyKeyPair(random);
-    if (!kp && this.keyExists()) {
-      // keyPair is not yet in memory, but private key exist in LS
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      this.receiverModel.setStealthyKeyPair(random, new KeyPair(this.getPkFromLs()!).mulPrivateKey(random));
-      kp = this.receiverModel.getStealthyKeyPair(random);
-    }
-    return kp;
-  };
-
-  clearKeyFromStorage = () => {
-    this.removePkFromLs();
-  };
-
-  keyExists() {
-    return Boolean(this.getPkFromLs());
-  }
-
-  private removePkFromLs = () => {
-    let key;
-    try {
-      key = window.localStorage.removeItem(PK_LS_KEY);
-    } catch (error) {
-      console.log("failed to delete key", error);
-    }
-    return key;
-  };
-
-  private getPkFromLs = () => {
-    let key;
-    try {
-      key = window.localStorage.getItem(PK_LS_KEY);
-    } catch (error) {
-      console.log("failed to get key", error);
-    }
-    return key ?? undefined;
-  };
-
-  private storeEnsPk = (pk: string) => {
-    try {
-      window.localStorage.setItem(PK_LS_KEY, pk);
-    } catch (error) {
-      console.log("failed to store key", error);
-    }
+    return this.receiverModel.getStealthyKeyPair(random);
   };
 }
